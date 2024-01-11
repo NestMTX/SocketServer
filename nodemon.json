@@ -1,0 +1,13 @@
+{
+  "watch": [
+    "**/*",
+    ".env"
+  ],
+  "ext": "ts,json,env",
+  "ignore": [
+    "node_modules",
+    "dist",
+    "docs"
+  ],
+  "exec": "node -r ts-node/register bin/test.ts"
+}
