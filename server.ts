@@ -31,6 +31,7 @@ export class SocketServer {
    * @param failOnExists Whether to throw an error if the socket file already exists. Defaults to `true`.
    */
   constructor(path: string, failOnExists: boolean = true) {
+    this.#bus = new EventEmitter()
     if (existsSync(path)) {
       if (failOnExists) {
         throw new SocketPathAlreadyExistsError(path)
@@ -46,7 +47,6 @@ export class SocketServer {
       this.#bus.emit('error', err)
     })
     this.#sockets = new Set()
-    this.#bus = new EventEmitter()
   }
 
   public async start(): Promise<void> {

@@ -16,13 +16,13 @@ export class SocketClient {
   readonly #responseBus: EventEmitter
 
   constructor(path: string) {
+    this.#bus = new EventEmitter()
     if (!existsSync(path)) {
       throw new SocketPathDoesNotExistError(path)
     }
     this.#socket = createConnection(path, () => {
       this.#log(`Connected to socket at "${path}"`)
     })
-    this.#bus = new EventEmitter()
     this.#socket.on('data', (data) => this.#onSocketData(data))
   }
 
