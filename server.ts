@@ -66,8 +66,14 @@ export class SocketServer {
     return new Promise((resolve, reject) => {
       this.#server.close((err) => {
         if (err) {
-          this.#log(`Error: ${err.message}`, 'error')
-          reject(err)
+          // @ts-ignore
+          if (!err.code || 'ERR_SERVER_NOT_RUNNING' !== err.code) {
+            this.#log(`Error: ${err.message}`, 'error')
+            reject(err)
+          } else {
+            this.#log(`Stopped listening on socket "${this.#path}"`, 'debug')
+            resolve()
+          }
         } else {
           this.#log(`Stopped listening on socket "${this.#path}"`, 'debug')
           resolve()
